@@ -1,52 +1,46 @@
 import { galleryItems } from './gallery-items.js';
-// Change code below this line
+// import * as basicLightbox from 'basiclightbox';
 
-console.log(galleryItems);
+// const basicLightbox = require('basiclightbox');
+// import * as basicLightbox from 'basiclightbox';
 
-// const galleryCreate = (galleryItems) => {
+const refs = {
+  divGallery:  document.querySelector('.gallery'),
+};
 
-const galleryItem = galleryItems.map(({ preview, original, description }) => {
-  console.log(preview, original, description)
+const galleryItemCreate = 
+  galleryItems.map(({ preview, original, description }) => {
+
   const divRef = document.createElement('div');
   divRef.classList.add('gallery__item');
-  console.log(divRef);
-
+  
   const aRef = document.createElement('a');
   aRef.classList.add('gallery__link');
   aRef.href = original;
-  aRef.alt = 'originalPhoto';
+  aRef.alt = description;
 
-  const imgPreviewRef = document.createElement('img');
-  imgPreviewRef.classList.add('gallery__image');
-  imgPreviewRef.src = preview;
-  imgPreviewRef.dataset.source = original;
-  imgPreviewRef.alt = description;
+  const imgRef = document.createElement('img');
+  imgRef.classList.add('gallery__image');
+  imgRef.src = preview;
+  imgRef.dataset.source = original;
+  imgRef.alt = description;
 
+  aRef.append(imgRef);
+  divRef.append(aRef);
 
-
+  return divRef;
 });
-console.log(galleryItem);
+
+refs.divGallery.append(...galleryItemCreate);
 
 
-/* <div class="gallery__item">
-  <a class="gallery__link" href="large-image.jpg">
-    <img
-      class="gallery__image"
-      src="small-image.jpg"
-      data-source="large-image.jpg"
-      alt="Image description" */
+refs.divGallery.addEventListener('click', showOriginalImg);
 
+function showOriginalImg(evt) {
+  evt.preventDefault();
+  if (!(evt.target.nodeName === "IMG"))  return;
 
+  const instance = basicLightbox.create(`<img src="` + evt.target.dataset.source + `">`);
 
-// export const galleryItems = [
-//     preview:
-//     original:
-//     description:
-
-// .gallery 
-// 
-// .gallery__image:hover
-//  
-// .gallery__link
-// .gallery__link:hover 
-
+  instance.show();
+}; 
