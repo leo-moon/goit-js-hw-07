@@ -1,8 +1,4 @@
 import { galleryItems } from './gallery-items.js';
-// import * as basicLightbox from 'basiclightbox';
-
-// const basicLightbox = require('basiclightbox');
-// import * as basicLightbox from 'basiclightbox';
 
 const refs = {
   divGallery:  document.querySelector('.gallery'),
@@ -34,13 +30,25 @@ const galleryItemCreate =
 refs.divGallery.append(...galleryItemCreate);
 
 
+var instance;
 refs.divGallery.addEventListener('click', showOriginalImg);
 
 function showOriginalImg(evt) {
   evt.preventDefault();
-  if (!(evt.target.nodeName === "IMG"))  return;
+  if (!(evt.target.nodeName === "IMG")) return;
 
-  const instance = basicLightbox.create(`<img src="` + evt.target.dataset.source + `">`);
-
+  instance = basicLightbox.create(`<img src="` + evt.target.dataset.source + `">`);
   instance.show();
-}; 
+
+  window.addEventListener('keydown', keyEscapePress);
+};
+
+function keyEscapePress(e) {
+  if (!(e.code === "Escape")) return;
+  closeOriginalImg();
+};
+
+function closeOriginalImg() {
+  instance.close();
+  window.removeEventListener('keydown', keyEscapePress);
+};
