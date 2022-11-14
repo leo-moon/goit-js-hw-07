@@ -4,9 +4,7 @@ const refs = {
   divGallery:  document.querySelector('.gallery'),
 };
 
-const galleryItemCreate = 
-  galleryItems.map(({ preview, original, description }) => {
-
+const galleryItemCreate = galleryItems.map( ({ preview, original, description }) => {
   const divRef = document.createElement('div');
   divRef.classList.add('gallery__item');
   
